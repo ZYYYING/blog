@@ -18,6 +18,10 @@
         color: #fff;
         text-align: center;
         font-size: 14px;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
         a{
             color: #fff;
         }

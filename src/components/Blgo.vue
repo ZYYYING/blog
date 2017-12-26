@@ -4,18 +4,18 @@
             <article v-for="(article, index) in articleList" id="article">
                 <div>
                     <router-link class="lable" to="/">{{article.tag}}</router-link>
-                    <h2><router-link to="/">{{article.title}}</router-link></h2>
+                    <h2><router-link to="/article">{{article.title}}</router-link></h2>
                 </div>
                 <p>{{article.content}}</p>
                 <div class="anthor">
                     <span><i class="el-icon-time"></i>{{article.created_at}}</span>
                     <span><i class="el-icon-view"></i>{{article.read_num}}</span>
                         <span class="addLike" :class="{'active': article.is_liked}" @click="addLike(index)">
-                            <i class="el-icon-star-off"></i>
-                            <template v-if="article.is_liked">已赞</template> <template v-else>点赞</template>
+                            <template v-if="article.is_liked"><i class="el-icon-star-on"></i>已赞</template>
+                            <template v-else><i class="el-icon-star-off"></i>点赞</template>
                             ({{article.like_num}})
                     </span>
-                    <router-link  to="/">阅读全文</router-link>
+                    <router-link  to="/article">阅读全文</router-link>
                 </div>
             </article>
          </el-col>
@@ -23,24 +23,24 @@
             <el-tabs class="article-hot" v-model="activeName" @tab-click="articleClick">
                 <el-tab-pane label="最新文章" name="new">
                     <ul>
-                        <li><router-link to="/">LESS学习记录</router-link></li>
-                        <li><router-link to="/">JavaScript与jQuery基本用法总结</router-link></li>
-                        <li><router-link to="/">LESS学习记录</router-link></li>
-                        <li><router-link to="/">LESS学习记录</router-link></li>
+                        <li v-for="(article_new,index) in articleNew">
+                            <router-link to="/article">{{article_new.title}}</router-link>
+                        </li>
                     </ul>
                 </el-tab-pane>
-                <el-tab-pane label="最热文章" name="hot">最热文章</el-tab-pane>
+                <el-tab-pane label="最热文章" name="hot">
+                    <ul>
+                        <li v-for="(article_hot,index) in articleHot">
+                            <router-link to="/article">{{article_hot.title}}</router-link>
+                        </li>
+                    </ul>
+                </el-tab-pane>
             </el-tabs>
              <div class="article-tag">
                  <p>标签</p>
-                 <el-tag><router-link to="/">HTML(2)</router-link></el-tag>
-                 <el-tag type="success"><router-link to="/">CSS（6）</router-link></el-tag>
-                 <el-tag type="info"><router-link to="/">JavaScript（3）</router-link></el-tag>
-                 <el-tag type="warning"><router-link to="/">APP (1)</router-link></el-tag>
-                 <el-tag type="danger"><router-link to="/">node（2）</router-link></el-tag>
-                 <el-tag><router-link to="/">LESS (2)</router-link></el-tag>
-                 <el-tag type="success"><router-link to="/">Bootstrap (4)</router-link></el-tag>
-                 <el-tag type="info"><router-link to="/">CSS3（2）</router-link></el-tag>
+                 <el-tag v-for="(article_tag,index) in articleTag">
+                     <router-link to="/tags">{{article_tag.tag}}({{article_tag.num}})</router-link>
+                 </el-tag>
              </div>
          </el-col>
     </el-row>
@@ -66,6 +66,48 @@
                     like_num: 0,
                     is_liked: false
                 }],
+                articleNew: [{
+                    title: 'JavaScript性能优化小知识总结',
+                }, {
+                    title: 'JavaScript判断键盘按键',
+                },{
+                    title:'JavaScript根据生日的月份和日期计算星座'
+                }],
+                articleHot: [{
+                    title: 'Loaders.css 多种纯CSS加载进度动画效果',
+                }, {
+                    title: '文字 11种HTML5和CSS3炫酷文字样式和鼠标滑过特效',
+                },{
+                    title:'圆形按钮 9种css3圆形按钮hover鼠标悬停动画'
+                }],
+                articleTag: [{
+                    tag: 'Loaders',
+                    num:'3'
+                }, {
+                    tag: 'CSS3',
+                    num:'2'
+                },{
+                    tag:'HTML',
+                    num:'6'
+                },{
+                    tag: 'JavaScript',
+                    num:'3'
+                },{
+                    tag: 'Node',
+                    num:'8'
+                },{
+                    tag: 'Vue',
+                    num:'5'
+                },{
+                    tag: 'less',
+                    num:'2'
+                },{
+                    tag: 'APP',
+                    num:'2'
+                },{
+                    tag: 'BootStrap',
+                    num:'2'
+                }],
                 activeName: 'new'
             };
         },
@@ -85,9 +127,9 @@
 
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
     body{
-        background-color: #f6f6f6;
+        background-color: #f6f6f6 !important;
     }
     .content{
         padding:30px 150px;
@@ -155,6 +197,7 @@
         .article-hot{
             background: #fff;
             padding: 20px;
+            margin-bottom: 10px;
             .el-tabs__content{
                 ul{
                     margin: 0;
@@ -170,16 +213,15 @@
                 }
             }
             .el-tabs__item.is-active,.el-tabs__item:hover{
-                color: #1abc9c;
+                color: #1abc9c!important;
             }
             .el-tabs__active-bar{
-                background-color:#1abc9c ;
+                background-color:#1abc9c !important;
             }
         }
         .article-tag{
             background: #fff;
             padding: 20px;
-            margin-top: 10px;
             p{
                 margin-top:0;
             }
@@ -189,6 +231,38 @@
                 a{
                     text-decoration: none;
                 }
+            }
+            .el-tag a{
+                color: #409eff;
+            }
+            .el-tag:nth-child(2n){
+                background-color: rgba(103,194,58,.1);
+                border-color: rgba(103,194,58,.2);
+            }
+            .el-tag:nth-child(2n) a{
+                color: #67c23a;
+            }
+            .el-tag:nth-child(3n){
+                background-color: hsla(220,4%,58%,.1);
+                border-color: hsla(220,4%,58%,.2);
+            }
+            .el-tag:nth-child(3n) a{
+                 color: #909399;
+            }
+            .el-tag:nth-child(4n){
+                background-color: rgba(230,162,60,.1);
+                border-color: rgba(230,162,60,.2);
+                color: #e6a23c;
+            }
+            .el-tag:nth-child(4n) a{
+                color: #e6a23c;
+            }
+            .el-tag:nth-child(5n){
+                background-color: hsla(0,87%,69%,.1);
+                border-color: hsla(0,87%,69%,.2);
+            }
+            .el-tag:nth-child(5n) a {
+                color: #f56c6c;
             }
         }
     }
