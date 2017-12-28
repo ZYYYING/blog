@@ -10,6 +10,7 @@
             <ul>
                 <li><router-link to="/blog">博客</router-link></li>
                 <li><router-link to="/">关于自己</router-link></li>
+                <li><router-link to="/login">登录</router-link></li>
             </ul>
         </div>
     </header>

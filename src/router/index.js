@@ -5,6 +5,7 @@ import Blgo from '../components/Blgo.vue';
 import Content from '../components/Content.vue';
 import Resume from '../components/Resume.vue';
 import Tags from '../components/Tags.vue';
+import Login from '../components/Login.vue'
 
 Vue.use(Router)
 
@@ -30,5 +31,9 @@ export default new Router({
             name: 'tags',
             component:Tags
         }]
+    },{
+        path: '/login',
+        name: 'login',
+        component:Login
     }]
 })
